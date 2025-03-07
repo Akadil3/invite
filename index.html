@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қонаққа шақыру</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f8f8f8; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 10px; }
+        button { background-color: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Құрметті қонақ, сізді шақырамыз!</h2>
+    <p>Сіз бұл мерей-тойға  келе аласыз ба?</p>
+    
+    <form id="inviteForm">
+        <input type="text" id="name" placeholder="Атыңызды енгізіңіз" required>
+        <select id="attendance">
+            <option value="Келемін">Келемін</option>
+            <option value="Келмеймін">Келмеймін</option>
+        </select>
+        <button type="submit">Жіберу</button>
+    </form>
+
+    <p id="responseMessage" style="color: green; margin-top: 15px;"></p>
+</div>
+
+<script>
+    document.getElementById("inviteForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var name = document.getElementById("name").value;
+        var attendance = document.getElementById("attendance").value;
+
+        var formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdGS-AyJtGF55tNfDN186bMBZ0vI7HTVfJdBd1F3PA0lY5_Lw/formResponse";
+        var formData = new FormData();
+        formData.append("entry.123456789", name);  // Замените на свой entry ID
+        formData.append("entry.987654321", attendance);  // Замените на свой entry ID
+
+        fetch(formUrl, { method: "POST", body: formData, mode: "no-cors" })
+            .then(() => {
+                document.getElementById("responseMessage").innerText = "Жауабыңыз сақталды! Рахмет!";
+                document.getElementById("inviteForm").reset();
+            })
+            .catch(() => {
+                document.getElementById("responseMessage").innerText = "Қате кетті, қайта көріңіз!";
+            });
+    });
+</script>
+
+</body>
+</html>
